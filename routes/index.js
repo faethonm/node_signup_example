@@ -1,16 +1,7 @@
-var models  = require('../models');
-var express = require('express');
-var router  = express.Router();
+module.exports = function(app) {
 
-router.get('/', function(req, res) {
-  models.User.findAll({
-    include: [ models.Challenge ]
-  }).then(function(users) {
-    res.render('index', {
-      title: 'Express',
-      users: users
-    });
+  app.get('/', function(req, res) {
+    res.render('index.ejs'); // load the index.ejs file
   });
-});
 
-module.exports = router;
+}
