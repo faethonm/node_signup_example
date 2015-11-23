@@ -5,21 +5,21 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var models = require("./models");
-var debug = require('debug')('express-example');
+
+var debug = require('debug')('hihiri-app');
+var port     = process.env.PORT || 3000;
 var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
-var session = require('express-session')
+var flash    = require('connect-flash');
+var morgan   = require('morgan');
+var session = require('express-session');
 
-
-var routes = require('./routes/index');
-var users  = require('./routes/users');
-var login  = require('./routes/login');
+require('./config/passport')(passport); // pass passport for configuration
 
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
@@ -28,19 +28,16 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({
-  secret: 'keyboard cat',
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: true }
-}))
+
+
+app.use(session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secret
 app.use(passport.initialize());
-app.use(passport.session());
+app.use(passport.session()); // persistent login sessions
+app.use(flash()); // use connect-flash for flash messages stored in session
 
-app.use('/', routes);
-app.use('/', login);
-app.use('/users', users);
-
+require('./routes/index')(app);
+require('./routes/authentication')(app, passport); // load our routes and pass in our app and fully configured passport
+require('./routes/profile')(app); // load our routes and pass in our app and fully configured passport
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -52,6 +49,7 @@ app.use(function(req, res, next) {
 // error handler
 // no stacktraces leaked to user unless in development environment
 app.use(function(err, req, res, next) {
+  debugger
   res.status(err.status || 500);
   res.render('error', {
     message: err.message,
