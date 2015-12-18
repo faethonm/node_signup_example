@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var models = require("./models");
 
-var debug = require('debug')('hihiri-app');
+var debug = require('debug')('signup-app');
 var port     = process.env.PORT || 3000;
 var passport = require('passport');
 var flash    = require('connect-flash');
@@ -38,6 +38,8 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 require('./routes/index')(app);
 require('./routes/authentication')(app, passport); // load our routes and pass in our app and fully configured passport
 require('./routes/profile')(app); // load our routes and pass in our app and fully configured passport
+require('./routes/challenge')(app); // load our routes and pass in our app and fully configured passport
+require('./routes/user')(app); // load our routes and pass in our app and fully configured passport
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

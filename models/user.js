@@ -7,7 +7,9 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: function(models) {
-        User.hasMany(models.Challenge)
+        User.belongsToMany(models.Challenge, {
+          through: 'UserChallenges'
+        })
       },
       generateHash: function(password) {
         return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);

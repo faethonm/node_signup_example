@@ -20,7 +20,7 @@ module.exports = function(app, passport) {
       // Redirect if it fails
       if (!user) { return res.json({
         success: false,
-        message: req.flash('loginMessage') }
+        message: 'Login failed! Incorrect username, or password' }
       )}
       req.logIn(user, function(err) {
         if (err) { return next(err); }
@@ -49,7 +49,7 @@ module.exports = function(app, passport) {
       // Redirect if it fails
       if (!user) { return res.json({
         success: false,
-        message: req.flash('signupMessage') }
+        message: 'Registration failed! Incorrect username, or password' }
       )}
       req.logIn(user, function(err) {
         if (err) { return next(err); }

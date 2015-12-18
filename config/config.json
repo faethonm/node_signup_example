@@ -15,6 +15,7 @@
     "password": "F1q_0UNUyjeQxVi_lF6CkHY91cjvR_Q8",
     "database": "ckzanqfk",
     "host": "pellefant-01.db.elephantsql.com",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "port":"5432"
   }
 }
